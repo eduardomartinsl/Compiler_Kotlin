@@ -1,0 +1,4 @@
+VAR
+a, b: Integer;
+c: Real;
+c := a + b;
