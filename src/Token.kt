@@ -1,26 +1,9 @@
-class Token(
-        tipo: String,
-        valor: String
+data class Token(
+        var type: String,
+        var value: String
 ){
+    override fun toString(): String {
 
-    var tipo: String = tipo
-        private set
-    var valor: String = valor
-        private set
-
-
-    fun concat(char: Char){
-        valor += char
-    }
-
-    fun convertType(RealType: String){
-        tipo = RealType
-    }
-
-    override fun equals(other: Any?) : Boolean{
-        if(other is Token){
-            return other.tipo == tipo && other.valor == valor
-        }
-        return super.equals(other)
+        return ("$type($value)")
     }
 }

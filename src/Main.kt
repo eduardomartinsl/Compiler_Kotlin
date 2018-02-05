@@ -7,8 +7,12 @@ fun main(args: Array<String>) {
 
     val inputString = inputStream.bufferedReader().use { it.readText() }
 
-    val tokenizador = Tokenizador()
+    val parser = TokenParser()
 
-    val retorno = tokenizador.tokenizador(inputString)
+    val tokens = parser.parse(inputString)
+
+    val analyzer = Analyzer(tokens)
+
+    analyzer.analyze()
 
 }

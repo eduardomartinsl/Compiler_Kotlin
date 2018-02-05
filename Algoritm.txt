@@ -1,4 +1,4 @@
-VAR
-a, b: Integer;
-c: Real;
+var
+    a, b:integer;
+    c:real;
 c := a + b;
