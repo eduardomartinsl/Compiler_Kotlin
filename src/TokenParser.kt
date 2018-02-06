@@ -14,7 +14,6 @@ import Constants.WHITE_SPACE_WITHOUT_R
 
 class TokenParser {
 
-
     private val _tokens = mutableListOf<Token>()
 
     var tokenAtual : Token? = null
@@ -22,6 +21,14 @@ class TokenParser {
         get (){
             return identifyKeywordsAndTypes(_tokens)
         }
+
+    fun parse(code: String): List<Token> {
+        for(char in code){
+            consume(char)
+        }
+
+        return tokens
+    }
 
     fun identifyKeywordsAndTypes(tokens: List<Token>): List<Token> {
         for(token in tokens){
@@ -34,14 +41,6 @@ class TokenParser {
                 }
             }
         }
-        return tokens
-    }
-
-    fun parse(code: String): List<Token> {
-        for(char in code){
-            consume(char)
-        }
-
         return tokens
     }
 

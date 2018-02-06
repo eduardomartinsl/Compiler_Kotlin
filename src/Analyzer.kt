@@ -17,8 +17,7 @@ class Analyzer(val tokens: List<Token>) {
 
         z()
 
-
-        println("is over: " + isOver)
+        println("Sintático concluido")
 
     }
 
