@@ -6,7 +6,7 @@ import Constants.TYPE
 import com.sun.jmx.remote.internal.ArrayQueue
 import java.util.*
 
-class Analyzer(val tokens: List<Token>) {
+public class Sintatic(val tokens: List<Token>) {
 
 
     private val token get() = tokens[index]
@@ -176,7 +176,8 @@ class Analyzer(val tokens: List<Token>) {
         codeNotOver()
 
         if (isOperator(";")) {
-
+            //Realizar a inserção na tabela de símbolos
+            //Busca também? Tirar dúvida
             operator(";")
 
             d()
@@ -191,7 +192,7 @@ class Analyzer(val tokens: List<Token>) {
     private fun s() {
 
         if (isOver) {
-            //cabo :D
+            //acabou
             return
         }
 

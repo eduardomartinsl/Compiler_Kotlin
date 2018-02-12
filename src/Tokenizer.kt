@@ -12,7 +12,7 @@ import Constants.TYPES_LIST
 import Constants.WHITE_SPACE
 import Constants.WHITE_SPACE_WITHOUT_R
 
-class TokenParser {
+class Tokenizer {
 
     private val _tokens = mutableListOf<Token>()
 

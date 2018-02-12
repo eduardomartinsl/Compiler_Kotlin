@@ -7,12 +7,12 @@ fun main(args: Array<String>) {
     val inputString = inputStream.bufferedReader().use { it.readText() }
 
     //analisador léxico
-    val tokens = TokenParser().parse(inputString)
+    val tokens = Tokenizer().parse(inputString)
     for(tokens in tokens){
         println(tokens)
     }
 
     //analisador sintático
-    Analyzer(tokens).analyze()
+    Sintatic(tokens).analyze()
 
 }
