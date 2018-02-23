@@ -8,11 +8,21 @@ fun main(args: Array<String>) {
 
     //analisador léxico
     val tokens = Tokenizer().parse(inputString)
+
+    //print dos tokens identificados
     for(tokens in tokens){
         println(tokens)
     }
 
     //analisador sintático
-    Sintatic(tokens).analyze()
+    val ast = Sintatic(tokens)
+    ast.analyze()
+
+
+    val symbols = ast.getSymbols()
+    for(symbol in symbols){
+        println(symbol)
+    }
+
 
 }

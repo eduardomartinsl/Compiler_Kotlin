@@ -3,8 +3,6 @@ import Constants.IDENTIFIER
 import Constants.KEYWORD
 import Constants.OPERATOR
 import Constants.TYPE
-import com.sun.jmx.remote.internal.ArrayQueue
-import java.util.*
 
 public class Sintatic(val tokens: List<Token>) {
 
@@ -12,6 +10,23 @@ public class Sintatic(val tokens: List<Token>) {
     private val token get() = tokens[index]
     private var index = 0
     private val isOver get() = tokens.size == index
+    private var incompleteSymbols = mutableListOf<String>()
+
+    val symbolTable = SymbolTable()
+
+    private fun createSymbol(id: String){
+        incompleteSymbols.add(id)
+    }
+
+    private fun addSymbolType(type: String){
+        incompleteSymbols.forEach{
+            if(symbolTable.exists(it)){
+                error("O Simbolo $it já foi declarado!")
+            }
+            symbolTable.insert(it, type)
+        }
+        incompleteSymbols.clear()
+    }
 
     fun analyze() {
 
@@ -19,6 +34,10 @@ public class Sintatic(val tokens: List<Token>) {
 
         println("Sintático concluido")
 
+    }
+
+    fun getSymbols(): Array<Symbol>{
+        return symbolTable.values
     }
 
     private fun error(message: String) {
@@ -58,8 +77,10 @@ public class Sintatic(val tokens: List<Token>) {
         expect(EOL, null, "fim de linha")
     }
 
-    private fun identifier() {
+    private fun identifier() : String {
+        val id = token.value
         expect(IDENTIFIER, null, "identificador")
+        return id
     }
 
     private fun consumeToken() {
@@ -110,6 +131,7 @@ public class Sintatic(val tokens: List<Token>) {
         if(!l()) {
 
             if (isOperator(":=")) {
+                incompleteSymbols.clear()
                 backwardToken()
                 return
             }
@@ -127,7 +149,9 @@ public class Sintatic(val tokens: List<Token>) {
 
         codeNotOver()
 
-        identifier()
+        val id = identifier()
+
+        createSymbol(id)
 
         return x()
     }
@@ -146,7 +170,6 @@ public class Sintatic(val tokens: List<Token>) {
         }
 
         return false
-        //endOfLine()
     }
 
     private fun k() {
@@ -154,6 +177,8 @@ public class Sintatic(val tokens: List<Token>) {
         codeNotOver()
 
         if (token.type == TYPE) {
+
+            addSymbolType(token.value)
 
             if (token.value == "integer") {
                 consumeToken()
