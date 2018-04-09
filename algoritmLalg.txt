@@ -1,0 +1,19 @@
+program programa1;
+{1 exemplo de programa}
+var a, a1, b: integer;
+begin
+read(a)
+a1:= a1 * .2.3444
+while (a1>0)do
+begin
+write(a1)
+a1:=a1-1
+end
+while (b <> 10) do
+begin
+b:=b+2
+a:=a-1
+b:=b+1
+end
+if a <> b then write(a)
+end

@@ -6,7 +6,6 @@ import Constants.TYPE
 
 public class Sintatic(val tokens: List<Token>) {
 
-
     private val token get() = tokens[index]
     private var index = 0
     private val isOver get() = tokens.size == index

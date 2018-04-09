@@ -3,7 +3,7 @@ import java.io.InputStream
 
 fun main(args: Array<String>) {
     //leitura, bufferização e conversão de arquivo para string
-    val inputStream : InputStream = File("Algoritm.txt").inputStream()
+    val inputStream : InputStream = File("AlgoritmLalg.txt").inputStream()
     val inputString = inputStream.bufferedReader().use { it.readText() }
 
     //analisador léxico
@@ -13,16 +13,16 @@ fun main(args: Array<String>) {
     for(tokens in tokens){
         println(tokens)
     }
-
-    //analisador sintático
-    val ast = Sintatic(tokens)
-    ast.analyze()
-
-
-    val symbols = ast.getSymbols()
-    for(symbol in symbols){
-        println(symbol)
-    }
+//
+//    //analisador sintático
+//    val ast = Sintatic(tokens)
+//    ast.analyze()
+//
+//
+//    val symbols = ast.getSymbols()
+//    for(symbol in symbols){
+//        println(symbol)
+//    }
 
 
 }

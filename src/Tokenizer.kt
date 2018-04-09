@@ -3,6 +3,8 @@ import Constants.EOL_CHAR
 import Constants.IDENTIFIER
 import Constants.KEYWORD
 import Constants.KEYWORDS_LIST
+import Constants.NUMBER_CHARS
+import Constants.NUMBER_TYPE
 import Constants.OPERATOR
 import Constants.OPERATORS_CHARS
 import Constants.REGEX_IDENTIFIER
@@ -72,6 +74,10 @@ class Tokenizer {
     }
 
     private fun resolveType(value : String): String {
+
+        if(NUMBER_CHARS.contains(value))
+            return NUMBER_TYPE
+
         if(value.matches(Regex(REGEX_START_IDENTIFIER))){
             return IDENTIFIER
         }
@@ -81,7 +87,7 @@ class Tokenizer {
         if(value == EOL_CHAR){
             return EOL
         }
-        throw error("Token Invalido")
+        throw error("Token Invalido: $value")
     }
 
     fun canConcat(type : String, value : String, char: String) : Boolean{
@@ -93,8 +99,16 @@ class Tokenizer {
         if(type == OPERATOR ){
             if(value == ":" && char == "=") return true
         }
+        if(type == OPERATOR ){
+            if(value == "<" && char == ">") return true
+        }
         if(type == EOL){
             if(char == EOL_CHAR || char == "\r") return true
+        }
+
+        //TODO Checagem de .(ponto) em início de numérico
+        if(type == NUMBER_TYPE){
+            if(NUMBER_CHARS.contains(char) || char == ".") return true
         }
         return false
     }
