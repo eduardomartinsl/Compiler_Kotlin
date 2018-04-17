@@ -29,10 +29,56 @@ public class Sintatic(val tokens: List<Token>) {
 
     fun analyze() {
 
-        z()
+        programa()
 
         println("Sintático concluido")
 
+    }
+
+    private fun programa() {
+
+        keyword("program")
+
+        //identificador
+        //consome token
+
+        corpo()
+
+        operator(".")
+
+    }
+
+    private fun corpo() {
+
+        dc()
+
+        keyword("begin")
+
+        comandos()
+
+        keyword("end")
+
+    }
+
+    private fun dc() {
+
+        dc_v()
+
+        mais_dc()
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun mais_dc() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun dc_v() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun comandos() {
+
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     fun getSymbols(): Array<Symbol>{

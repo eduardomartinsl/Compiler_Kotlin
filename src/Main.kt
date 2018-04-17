@@ -13,8 +13,8 @@ fun main(args: Array<String>) {
     for(tokens in tokens){
         println(tokens)
     }
-//
-//    //analisador sintático
+
+    //analisador sintático
 //    val ast = Sintatic(tokens)
 //    ast.analyze()
 //

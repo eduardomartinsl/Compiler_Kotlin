@@ -16,6 +16,8 @@ import Constants.WHITE_SPACE_WITHOUT_R
 
 class Tokenizer {
 
+    private var line = 1
+
     private val _tokens = mutableListOf<Token>()
 
     var tokenAtual : Token? = null
@@ -42,6 +44,13 @@ class Tokenizer {
                     token.type = TYPE
                 }
             }
+            if(token.type == NUMBER_TYPE){
+                if(token.value.contains(".")){
+                    token.type = "real"
+                }else{
+                    token.type = "integer"
+                }
+            }
         }
         return tokens
     }
@@ -51,9 +60,8 @@ class Tokenizer {
             if(WHITE_SPACE.contains(char)){
                 return
             }
-            
             val type = resolveType(char.toString())
-            
+
             tokenAtual = Token(type, char.toString())
             _tokens.add(tokenAtual!!)
             return
@@ -66,11 +74,11 @@ class Tokenizer {
             return
         }
         if(!canConcat(token.type,token.value, char.toString())){
+
             tokenAtual = null
             return consume(char)
         }
         token.value += char
-
     }
 
     private fun resolveType(value : String): String {
@@ -85,31 +93,44 @@ class Tokenizer {
             return OPERATOR
         }
         if(value == EOL_CHAR){
+            line++
             return EOL
         }
-        throw error("Token Invalido: $value")
+        //TODO colocar linha e coluna do token invalido
+        throw error("Token Invalido: $value na linha $line")
     }
 
     fun canConcat(type : String, value : String, char: String) : Boolean{
+
         if(type == IDENTIFIER){
             if(char.matches(Regex(REGEX_IDENTIFIER))){
                 return true
             }
         }
         if(type == OPERATOR ){
+            if(value == "/" && char == "*") return true
+            if(value == "*" && char == "/") return true
             if(value == ":" && char == "=") return true
-        }
-        if(type == OPERATOR ){
             if(value == "<" && char == ">") return true
+            if(value == "<" && char == "=") return true
+            if(value == ">" && char == "=") return true
         }
+
         if(type == EOL){
-            if(char == EOL_CHAR || char == "\r") return true
+            if(char == EOL_CHAR || char == "\r"){
+                line = 0
+                return true
+            }
         }
 
         //TODO Checagem de .(ponto) em início de numérico
         if(type == NUMBER_TYPE){
-            if(NUMBER_CHARS.contains(char) || char == ".") return true
+            if(NUMBER_CHARS.contains(char) || char == ".") {
+                //TODO definir tipo como real
+                return true
+            }
         }
+
         return false
     }
 }
