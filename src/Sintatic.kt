@@ -1,7 +1,9 @@
 import Constants.EOL
 import Constants.IDENTIFIER
+import Constants.INTEGER_TYPE
 import Constants.KEYWORD
 import Constants.OPERATOR
+import Constants.REAL_TYPE
 import Constants.TYPE
 
 public class Sintatic(val tokens: List<Token>) {
@@ -10,6 +12,10 @@ public class Sintatic(val tokens: List<Token>) {
     private var index = 0
     private val isOver get() = tokens.size == index
     private var incompleteSymbols = mutableListOf<String>()
+
+    //TODO implementar tratamento de comentários
+
+//    private var areVariableDeclared = false
 
     val symbolTable = SymbolTable()
 
@@ -33,52 +39,6 @@ public class Sintatic(val tokens: List<Token>) {
 
         println("Sintático concluido")
 
-    }
-
-    private fun programa() {
-
-        keyword("program")
-
-        //identificador
-        //consome token
-
-        corpo()
-
-        operator(".")
-
-    }
-
-    private fun corpo() {
-
-        dc()
-
-        keyword("begin")
-
-        comandos()
-
-        keyword("end")
-
-    }
-
-    private fun dc() {
-
-        dc_v()
-
-        mais_dc()
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    private fun mais_dc() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    private fun dc_v() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    private fun comandos() {
-
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     fun getSymbols(): Array<Symbol>{
@@ -326,6 +286,374 @@ public class Sintatic(val tokens: List<Token>) {
 
         identifier()
 
+    }
+
+    //TODO remover sintático antigo
+
+    private fun programa() {
+
+        keyword("program")
+        identifier()
+        corpo()
+        operator(".")
+
+    }
+
+    private fun corpo() {
+
+        dc()
+
+        keyword("begin")
+
+        comandos()
+
+        keyword("end")
+
+    }
+
+    private fun dc() {
+//        if(!areVariableDeclared){
+//            dc_v()
+//            mais_dc()
+//        }else{
+//            dc_p()
+//            mais_dc()
+//        }
+        dc_v()
+        mais_dc()
+    }
+
+    private fun mais_dc() {
+        if(token.type == OPERATOR) {
+            operator(";")
+            dc()
+        }
+    }
+
+    private fun dc_v() {
+        keyword("var")
+        variaveis()
+        operator(":")
+        tipo_var()
+    }
+
+    private fun tipo_var(){
+        //TODO estudar implementação
+    }
+
+    private fun variaveis(){
+        identifier()
+        mais_var()
+    }
+
+    private fun mais_var(){
+        if(token.type == OPERATOR){
+            operator(",")
+            variaveis()
+        }
+    }
+
+    private fun dc_p(){
+        keyword("procedure")
+
+        identifier()
+
+        parametros()
+
+        corpo_p()
+    }
+
+    private fun parametros(){
+        if(token.type == OPERATOR){
+            operator("(")
+            lista_par()
+            operator(")")
+        }
+    }
+
+    private fun lista_par(){
+
+        variaveis()
+
+        operator(":")
+
+        tipo_var()
+
+        mais_var()
+    }
+
+    private fun mais_par(){
+        if(token.type == OPERATOR){
+            operator(";")
+
+            lista_par()
+        }
+    }
+
+    private fun corpo_p(){
+        dc_loc()
+
+        keyword("begin")
+
+        comandos()
+
+        keyword("end")
+    }
+
+    private fun dc_loc(){
+        dc_v()
+
+        mais_dcloc()
+    }
+
+    private fun mais_dcloc(){
+        if(token.type == OPERATOR){
+            operator(";")
+            dc_loc()
+            return
+        }
+    }
+
+    private fun lista_arg(){
+        if(token.type == OPERATOR){
+            operator("(")
+            argumentos()
+            operator(")")
+            return
+        }
+    }
+
+    private fun argumentos(){
+        identifier()
+        mais_ident()
+    }
+
+    private fun mais_ident(){
+        if(token.type == OPERATOR){
+            operator(";")
+            argumentos()
+            return
+        }
+    }
+
+    private fun pfalsa(){
+        if(token.type == KEYWORD){
+            keyword("else")
+            comandos()
+            return
+        }
+    }
+
+    private fun comandos() {
+
+        comando()
+
+        mais_comandos()
+    }
+
+    private fun mais_comandos(){
+        if(token.type == OPERATOR){
+            operator(";")
+            comandos()
+            return
+        }
+    }
+
+    private fun comando(){
+        if(token.type == KEYWORD){
+            when(token.value){
+                "read" -> {
+                    operator("(")
+
+                    variaveis()
+
+                    operator(")")
+                }
+                "write" -> {
+                    operator("(")
+
+                    variaveis()
+
+                    operator(")")
+                }
+                "while" -> {
+                    condicao()
+
+                    keyword("do")
+
+                    comandos()
+
+                    keyword("$")
+                }
+                "if" -> {
+                    condicao()
+
+                    keyword("then")
+
+                    comandos()
+
+                    pfalsa()
+
+                    keyword("$")
+                }
+            }
+        }
+        if(token.type == IDENTIFIER){
+            identifier()
+        }
+    }
+
+    private fun restoIdent(){
+        if(token.type == OPERATOR){
+            operator(":=")
+
+            expressao()
+            return
+        }
+
+        lista_arg()
+    }
+
+    private fun condicao(){
+
+        expressao()
+
+        relacao()
+
+        expressao()
+    }
+
+    private fun relacao(){
+        if(token.type == OPERATOR){
+            when(token.value){
+                "=" -> {
+                    consumeToken()
+                    return
+                }
+                "<>" -> {
+                    consumeToken()
+                    return
+                }
+                ">=" -> {
+                    consumeToken()
+                    return
+                }
+                "<=" -> {
+                    consumeToken()
+                    return
+                }
+                ">" -> {
+                    consumeToken()
+                    return
+                }
+                "<" -> {
+                    consumeToken()
+                    return
+                }
+            }
+        }
+    }
+
+    private fun expressao(){
+        termo()
+
+        outros_termos()
+    }
+
+    private fun op_un(){
+        if(token.type == OPERATOR){
+            if(token.value == "+"){
+                consumeToken()
+                return
+            }
+            if(token.value == "-"){
+                consumeToken()
+                return
+            }
+        }
+    }
+
+    private fun outros_termos() {
+
+        op_ad()
+
+        termo()
+
+        outros_termos()
+
+        //TODO análise de first e follow
+
+    }
+
+    private fun op_ad(){
+        if(token.type == OPERATOR){
+            if(token.value == "+"){
+                consumeToken()
+                return
+            }
+            if(token.value == "-"){
+                consumeToken()
+                return
+            }
+        }
+    }
+
+    private fun termo() {
+
+        op_un()
+
+        fator()
+
+        mais_fatores()
+
+    }
+
+    private fun mais_fatores(){
+        op_mul()
+
+        fator()
+
+        mais_fatores()
+
+        //TODO análise de first e follow
+    }
+
+    private fun op_mul(){
+        if(token.type == OPERATOR){
+            if(token.value == "*"){
+                consumeToken()
+                return
+            }
+            if(token.value == "/"){
+                consumeToken()
+                return
+            }
+        }
+    }
+
+    private fun fator(){
+
+        //TODO analisar usabilidade
+        if(token.type == IDENTIFIER){
+            consumeToken()
+            return
+        }
+        if(token.type == REAL_TYPE){
+            consumeToken()
+            return
+        }
+        if(token.type == INTEGER_TYPE){
+            consumeToken()
+            return
+        }
+        if(token.type == OPERATOR){
+            operator("(")
+
+            expressao()
+
+            operator(")")
+
+        }
     }
 
 }

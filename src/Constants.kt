@@ -10,6 +10,8 @@ object Constants {
     val OPERATOR = "operator"
     val KEYWORD = "keyword"
     val TYPE = "type"
+    val REAL_TYPE = "real"
+    val INTEGER_TYPE = "integer"
     val EOL = "ε"
     val EOL_CHAR = "\n"
 

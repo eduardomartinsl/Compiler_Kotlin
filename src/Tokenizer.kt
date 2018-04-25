@@ -1,12 +1,14 @@
 import Constants.EOL
 import Constants.EOL_CHAR
 import Constants.IDENTIFIER
+import Constants.INTEGER_TYPE
 import Constants.KEYWORD
 import Constants.KEYWORDS_LIST
 import Constants.NUMBER_CHARS
 import Constants.NUMBER_TYPE
 import Constants.OPERATOR
 import Constants.OPERATORS_CHARS
+import Constants.REAL_TYPE
 import Constants.REGEX_IDENTIFIER
 import Constants.REGEX_START_IDENTIFIER
 import Constants.TYPE
@@ -46,9 +48,9 @@ class Tokenizer {
             }
             if(token.type == NUMBER_TYPE){
                 if(token.value.contains(".")){
-                    token.type = "real"
+                    token.type = REAL_TYPE
                 }else{
-                    token.type = "integer"
+                    token.type = INTEGER_TYPE
                 }
             }
         }
@@ -96,7 +98,6 @@ class Tokenizer {
             line++
             return EOL
         }
-        //TODO colocar linha e coluna do token invalido
         throw error("Token Invalido: $value na linha $line")
     }
 
@@ -123,14 +124,11 @@ class Tokenizer {
             }
         }
 
-        //TODO Checagem de .(ponto) em início de numérico
         if(type == NUMBER_TYPE){
             if(NUMBER_CHARS.contains(char) || char == ".") {
-                //TODO definir tipo como real
                 return true
             }
         }
-
         return false
     }
 }
