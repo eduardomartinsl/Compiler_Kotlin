@@ -15,8 +15,8 @@ fun main(args: Array<String>) {
     }
 
     //analisador sintático
-    val ast = Sintatic(tokens)
-    ast.analyze()
+//    val ast = Sintatic(tokens)
+//    ast.analyze()
 //
 //
 //    val symbols = ast.getSymbols()

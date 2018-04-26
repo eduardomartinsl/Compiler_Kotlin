@@ -1,3 +1,4 @@
+import Constants.COMMENT
 import Constants.EOL
 import Constants.EOL_CHAR
 import Constants.IDENTIFIER
@@ -71,15 +72,24 @@ class Tokenizer {
 
         val token = tokenAtual!!
 
-        if(WHITE_SPACE_WITHOUT_R.contains(char)){
-            tokenAtual = null
-            return
+        if(token.type == OPERATOR && char == '*'){
+            token.type = COMMENT
         }
+
+        if(
+                (token.type == COMMENT && token.value.contains("}")) ||
+                (token.type == COMMENT && token.value.contains("*/"))
+        ){
+            tokenAtual = null
+            return consume(char)
+        }
+
         if(!canConcat(token.type,token.value, char.toString())){
 
             tokenAtual = null
             return consume(char)
         }
+
         token.value += char
     }
 
@@ -92,6 +102,9 @@ class Tokenizer {
             return IDENTIFIER
         }
         if(OPERATORS_CHARS.contains(value)){
+            if(value == "{"){
+                return  COMMENT
+            }
             return OPERATOR
         }
         if(value == EOL_CHAR){
@@ -103,18 +116,26 @@ class Tokenizer {
 
     fun canConcat(type : String, value : String, char: String) : Boolean{
 
+        if(type == COMMENT){
+            if(value[value.length -1] == '*' && char == "/"){
+                return true
+            }
+            return true
+        }
+
         if(type == IDENTIFIER){
             if(char.matches(Regex(REGEX_IDENTIFIER))){
                 return true
             }
         }
         if(type == OPERATOR ){
+            when(value) {
+                "<" -> if(char == ">" || char =="=") return true
+                ">" -> if(char == "=") return true
+                ":" -> if(char == "=") return true
+            }
             if(value == "/" && char == "*") return true
             if(value == "*" && char == "/") return true
-            if(value == ":" && char == "=") return true
-            if(value == "<" && char == ">") return true
-            if(value == "<" && char == "=") return true
-            if(value == ">" && char == "=") return true
         }
 
         if(type == EOL){
@@ -129,6 +150,7 @@ class Tokenizer {
                 return true
             }
         }
+
         return false
     }
 }

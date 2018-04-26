@@ -4,9 +4,12 @@
     <list default="true" id="338d754a-8e24-4096-9939-f53e9edd2290" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algoritmLalg.txt" beforeDir="false" afterPath="$PROJECT_DIR$/algoritmLalg.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProjetoCompiladores/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ProjetoCompiladores/Constants.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProjetoCompiladores/MainKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ProjetoCompiladores/MainKt.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProjetoCompiladores/Sintatic.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ProjetoCompiladores/Sintatic.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProjetoCompiladores/Tokenizer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ProjetoCompiladores/Tokenizer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Constants.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Constants.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Sintatic.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sintatic.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Tokenizer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tokenizer.kt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -31,8 +34,8 @@
       <file leaf-file-name="Constants.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Constants.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="28" column="17" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
+            <state relative-caret-position="34">
+              <caret line="2" column="29" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -40,8 +43,8 @@
       <file leaf-file-name="algoritmLalg.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/algoritmLalg.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" column="23" lean-forward="true" selection-start-line="1" selection-start-column="23" selection-end-line="1" selection-end-column="23" />
+            <state relative-caret-position="119">
+              <caret line="7" column="28" lean-forward="true" selection-start-line="7" selection-start-column="28" selection-end-line="8" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -49,95 +52,60 @@
       <file leaf-file-name="Main.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="235">
-              <caret line="18" selection-start-line="18" selection-end-line="18" />
+            <state relative-caret-position="204">
+              <caret line="13" column="8" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="23" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Tokenizer.kt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Tokenizer.kt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Tokenizer.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="131">
-              <caret line="99" column="9" lean-forward="true" selection-start-line="99" selection-start-column="9" selection-end-line="99" selection-end-column="9" />
+            <state relative-caret-position="221">
+              <caret line="94" lean-forward="true" selection-start-line="94" selection-end-line="94" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Sintatic.kt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Sintatic.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Sintatic.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-102">
-              <caret line="15" column="48" selection-start-line="15" selection-start-column="48" selection-end-line="15" selection-end-column="48" />
+            <state relative-caret-position="340">
+              <caret line="36" selection-start-line="36" selection-end-line="36" />
               <folding>
                 <element signature="n#!!block;n#createSymbol#0;n#!!block;n#Sintatic#0" />
                 <element signature="n#!!block;n#addSymbolType#0;n#!!block;n#Sintatic#0" />
-                <element signature="e#617#780#2" />
-                <element signature="e#657#729#1" />
                 <element signature="n#!!block;n#getSymbols#0;n#!!block;n#Sintatic#0" />
                 <element signature="n#!!block;n#error#0;n#!!block;n#Sintatic#0" />
-                <element signature="n#!!block;n#is#0;n#!!block;n#Sintatic#0" />
                 <element signature="n#!!block;n#operator#0;n#!!block;n#Sintatic#0" />
                 <element signature="n#!!block;n#isOperator#0;n#!!block;n#Sintatic#0" />
                 <element signature="n#!!block;n#isKeyword#0;n#!!block;n#Sintatic#0" />
                 <element signature="n#!!block;n#consumeToken#0;n#!!block;n#Sintatic#0" />
-                <element signature="e#2169#2248#1" />
                 <element signature="n#!!block;n#backwardToken#0;n#!!block;n#Sintatic#0" />
                 <element signature="n#!!block;n#x#0;n#!!block;n#Sintatic#0" />
-                <element signature="e#3095#3175#1" />
                 <element signature="n#!!block;n#k#0;n#!!block;n#Sintatic#0" />
-                <element signature="e#3283#3558#1" />
-                <element signature="e#3368#3437#1" />
-                <element signature="e#3478#3547#1" />
                 <element signature="n#!!block;n#o#0;n#!!block;n#Sintatic#0" />
-                <element signature="e#3700#3871#1" />
                 <element signature="n#!!block;n#s#0;n#!!block;n#Sintatic#0" />
-                <element signature="e#3944#3995#1" />
-                <element signature="e#4026#4147#1" />
                 <element signature="n#!!block;n#e#0;n#!!block;n#Sintatic#0" />
                 <element signature="n#!!block;n#r#0;n#!!block;n#Sintatic#0" />
-                <element signature="e#4369#4461#1" />
-                <element signature="e#4506#4541#1" />
                 <element signature="n#!!block;n#t#0;n#!!block;n#Sintatic#0" />
                 <element signature="n#!!block;n#mais_dc#0;n#!!block;n#Sintatic#0" />
-                <element signature="e#5226#5280#1" />
                 <element signature="n#!!block;n#mais_var#0;n#!!block;n#Sintatic#0" />
-                <element signature="e#5508#5532#1" />
                 <element signature="n#!!block;n#parametros#0;n#!!block;n#Sintatic#0" />
-                <element signature="e#5577#5664#1" />
                 <element signature="n#!!block;n#lista_par#0;n#!!block;n#Sintatic#0" />
                 <element signature="n#!!block;n#mais_par#0;n#!!block;n#Sintatic#0" />
-                <element signature="e#5854#5916#1" />
                 <element signature="n#!!block;n#corpo_p#0;n#!!block;n#Sintatic#0" />
                 <element signature="n#!!block;n#dc_loc#0;n#!!block;n#Sintatic#0" />
                 <element signature="n#!!block;n#comandos#0;n#!!block;n#Sintatic#0" />
                 <element signature="n#!!block;n#mais_comandos#0;n#!!block;n#Sintatic#0" />
-                <element signature="e#7357#7478#0" />
-                <element signature="e#7506#7627#0" />
-                <element signature="e#7655#7806#0" />
-                <element signature="e#7831#8014#0" />
                 <element signature="n#!!block;n#restoIdent#0;n#!!block;n#Sintatic#0" />
-                <element signature="e#8110#8192#1" />
                 <element signature="n#!!block;n#condicao#0;n#!!block;n#Sintatic#0" />
                 <element signature="n#!!block;n#relacao#0;n#!!block;n#Sintatic#0" />
-                <element signature="e#8378#9067#1" />
-                <element signature="e#8434#8515#0" />
-                <element signature="e#8540#8621#0" />
-                <element signature="e#8646#8727#0" />
-                <element signature="e#8752#8833#0" />
-                <element signature="e#8857#8938#0" />
-                <element signature="e#8962#9043#0" />
                 <element signature="n#!!block;n#expressao#0;n#!!block;n#Sintatic#0" />
                 <element signature="n#!!block;n#op_un#0;n#!!block;n#Sintatic#0" />
                 <element signature="n#!!block;n#op_ad#0;n#!!block;n#Sintatic#0" />
-                <element signature="e#9771#9990#1" />
-                <element signature="e#9807#9876#1" />
-                <element signature="e#9911#9980#1" />
                 <element signature="n#!!block;n#termo#0;n#!!block;n#Sintatic#0" />
                 <element signature="n#!!block;n#op_mul#0;n#!!block;n#Sintatic#0" />
-                <element signature="e#10281#10500#1" />
-                <element signature="e#10317#10386#1" />
-                <element signature="e#10421#10490#1" />
               </folding>
             </state>
           </provider>
@@ -183,17 +151,17 @@
         <option value="$PROJECT_DIR$/Algoritm.txt" />
         <option value="$PROJECT_DIR$/src/algoritmLalg" />
         <option value="$PROJECT_DIR$/sintatico.txt" />
+        <option value="$PROJECT_DIR$/src/Sintatic.kt" />
         <option value="$PROJECT_DIR$/src/Constants.kt" />
         <option value="$PROJECT_DIR$/src/Main.kt" />
         <option value="$PROJECT_DIR$/algoritmLalg.txt" />
         <option value="$PROJECT_DIR$/src/Tokenizer.kt" />
-        <option value="$PROJECT_DIR$/src/Sintatic.kt" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="487" />
-    <option name="y" value="132" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="485" />
+    <option name="y" value="80" />
     <option name="width" value="1170" />
     <option name="height" value="665" />
   </component>
@@ -202,9 +170,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -221,6 +186,9 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -346,34 +314,35 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="390" y="106" width="936" height="532" extended-state="0" />
+    <frame x="-7" y="-7" width="1550" height="848" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="5" weight="0.3292517" />
-      <window_info anchor="bottom" id="Messages" order="6" sideWeight="0.4986979" visible="true" weight="0.34606206" />
+      <window_info anchor="bottom" id="Messages" order="6" sideWeight="0.4986979" weight="0.34557822" />
       <window_info anchor="right" id="Palette&#9;" order="4" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="5" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50130206" side_tool="true" weight="0.39863947" />
       <window_info anchor="right" id="Maven Projects" order="6" />
-      <window_info anchor="right" id="Run" order="8" weight="0.6334056" />
       <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="right" id="Run" order="8" visible="true" weight="0.33268228" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49934897" weight="0.3292517" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22451194" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49934897" weight="0.25034013" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13476562" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="4" />
       <window_info anchor="right" id="Theme Preview" order="7" />
-      <window_info anchor="bottom" id="Debug" order="2" sideWeight="0.4986979" weight="0.26802722" />
       <window_info id="Favorites" order="5" side_tool="true" />
+      <window_info active="true" anchor="bottom" id="Debug" order="2" sideWeight="0.4986979" visible="true" weight="0.3102041" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49934897" weight="0.25034013" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -381,7 +350,15 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="38" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/Sintatic.kt</url>
+          <line>333</line>
+          <properties />
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="47" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="JetRunConfigurationType">
@@ -597,108 +574,73 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Sintatic.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="36" selection-start-line="36" selection-end-line="36" />
+          <folding>
+            <element signature="n#!!block;n#createSymbol#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#addSymbolType#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#getSymbols#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#error#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#operator#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#isOperator#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#isKeyword#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#consumeToken#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#backwardToken#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#x#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#k#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#o#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#s#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#e#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#r#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#t#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#mais_dc#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#mais_var#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#parametros#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#lista_par#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#mais_par#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#corpo_p#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#dc_loc#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#comandos#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#mais_comandos#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#restoIdent#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#condicao#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#relacao#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#expressao#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#op_un#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#op_ad#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#termo#0;n#!!block;n#Sintatic#0" />
+            <element signature="n#!!block;n#op_mul#0;n#!!block;n#Sintatic#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Constants.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="28" column="17" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
+        <state relative-caret-position="34">
+          <caret line="2" column="29" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="235">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
+        <state relative-caret-position="204">
+          <caret line="13" column="8" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/algoritmLalg.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="23" lean-forward="true" selection-start-line="1" selection-start-column="23" selection-end-line="1" selection-end-column="23" />
+        <state relative-caret-position="119">
+          <caret line="7" column="28" lean-forward="true" selection-start-line="7" selection-start-column="28" selection-end-line="8" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Tokenizer.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="99" column="9" lean-forward="true" selection-start-line="99" selection-start-column="9" selection-end-line="99" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Sintatic.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-102">
-          <caret line="15" column="48" selection-start-line="15" selection-start-column="48" selection-end-line="15" selection-end-column="48" />
-          <folding>
-            <element signature="n#!!block;n#createSymbol#0;n#!!block;n#Sintatic#0" />
-            <element signature="n#!!block;n#addSymbolType#0;n#!!block;n#Sintatic#0" />
-            <element signature="e#617#780#2" />
-            <element signature="e#657#729#1" />
-            <element signature="n#!!block;n#getSymbols#0;n#!!block;n#Sintatic#0" />
-            <element signature="n#!!block;n#error#0;n#!!block;n#Sintatic#0" />
-            <element signature="n#!!block;n#is#0;n#!!block;n#Sintatic#0" />
-            <element signature="n#!!block;n#operator#0;n#!!block;n#Sintatic#0" />
-            <element signature="n#!!block;n#isOperator#0;n#!!block;n#Sintatic#0" />
-            <element signature="n#!!block;n#isKeyword#0;n#!!block;n#Sintatic#0" />
-            <element signature="n#!!block;n#consumeToken#0;n#!!block;n#Sintatic#0" />
-            <element signature="e#2169#2248#1" />
-            <element signature="n#!!block;n#backwardToken#0;n#!!block;n#Sintatic#0" />
-            <element signature="n#!!block;n#x#0;n#!!block;n#Sintatic#0" />
-            <element signature="e#3095#3175#1" />
-            <element signature="n#!!block;n#k#0;n#!!block;n#Sintatic#0" />
-            <element signature="e#3283#3558#1" />
-            <element signature="e#3368#3437#1" />
-            <element signature="e#3478#3547#1" />
-            <element signature="n#!!block;n#o#0;n#!!block;n#Sintatic#0" />
-            <element signature="e#3700#3871#1" />
-            <element signature="n#!!block;n#s#0;n#!!block;n#Sintatic#0" />
-            <element signature="e#3944#3995#1" />
-            <element signature="e#4026#4147#1" />
-            <element signature="n#!!block;n#e#0;n#!!block;n#Sintatic#0" />
-            <element signature="n#!!block;n#r#0;n#!!block;n#Sintatic#0" />
-            <element signature="e#4369#4461#1" />
-            <element signature="e#4506#4541#1" />
-            <element signature="n#!!block;n#t#0;n#!!block;n#Sintatic#0" />
-            <element signature="n#!!block;n#mais_dc#0;n#!!block;n#Sintatic#0" />
-            <element signature="e#5226#5280#1" />
-            <element signature="n#!!block;n#mais_var#0;n#!!block;n#Sintatic#0" />
-            <element signature="e#5508#5532#1" />
-            <element signature="n#!!block;n#parametros#0;n#!!block;n#Sintatic#0" />
-            <element signature="e#5577#5664#1" />
-            <element signature="n#!!block;n#lista_par#0;n#!!block;n#Sintatic#0" />
-            <element signature="n#!!block;n#mais_par#0;n#!!block;n#Sintatic#0" />
-            <element signature="e#5854#5916#1" />
-            <element signature="n#!!block;n#corpo_p#0;n#!!block;n#Sintatic#0" />
-            <element signature="n#!!block;n#dc_loc#0;n#!!block;n#Sintatic#0" />
-            <element signature="n#!!block;n#comandos#0;n#!!block;n#Sintatic#0" />
-            <element signature="n#!!block;n#mais_comandos#0;n#!!block;n#Sintatic#0" />
-            <element signature="e#7357#7478#0" />
-            <element signature="e#7506#7627#0" />
-            <element signature="e#7655#7806#0" />
-            <element signature="e#7831#8014#0" />
-            <element signature="n#!!block;n#restoIdent#0;n#!!block;n#Sintatic#0" />
-            <element signature="e#8110#8192#1" />
-            <element signature="n#!!block;n#condicao#0;n#!!block;n#Sintatic#0" />
-            <element signature="n#!!block;n#relacao#0;n#!!block;n#Sintatic#0" />
-            <element signature="e#8378#9067#1" />
-            <element signature="e#8434#8515#0" />
-            <element signature="e#8540#8621#0" />
-            <element signature="e#8646#8727#0" />
-            <element signature="e#8752#8833#0" />
-            <element signature="e#8857#8938#0" />
-            <element signature="e#8962#9043#0" />
-            <element signature="n#!!block;n#expressao#0;n#!!block;n#Sintatic#0" />
-            <element signature="n#!!block;n#op_un#0;n#!!block;n#Sintatic#0" />
-            <element signature="n#!!block;n#op_ad#0;n#!!block;n#Sintatic#0" />
-            <element signature="e#9771#9990#1" />
-            <element signature="e#9807#9876#1" />
-            <element signature="e#9911#9980#1" />
-            <element signature="n#!!block;n#termo#0;n#!!block;n#Sintatic#0" />
-            <element signature="n#!!block;n#op_mul#0;n#!!block;n#Sintatic#0" />
-            <element signature="e#10281#10500#1" />
-            <element signature="e#10317#10386#1" />
-            <element signature="e#10421#10490#1" />
-          </folding>
+        <state relative-caret-position="221">
+          <caret line="94" lean-forward="true" selection-start-line="94" selection-end-line="94" />
         </state>
       </provider>
     </entry>

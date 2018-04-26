@@ -9,6 +9,7 @@ object Constants {
     val OPERATORS_CHARS = ":=;+-,()*/<>{}."
     val OPERATOR = "operator"
     val KEYWORD = "keyword"
+    val COMMENT = "comment"
     val TYPE = "type"
     val REAL_TYPE = "real"
     val INTEGER_TYPE = "integer"
