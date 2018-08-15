@@ -1,3 +1,4 @@
+import Constants.COMMENT
 import java.io.File
 import java.io.InputStream
 
@@ -10,13 +11,14 @@ fun main(args: Array<String>) {
     val tokens = Tokenizer().parse(inputString)
 
     //print dos tokens identificados
-    for(tokens in tokens){
-        println(tokens)
+    for(token in tokens){
+        println(token)
+
     }
 
     //analisador sintático
-//    val ast = Sintatic(tokens)
-//    ast.analyze()
+    val ast = Sintatic(tokens)
+    ast.analyze()
 //
 //
 //    val symbols = ast.getSymbols()

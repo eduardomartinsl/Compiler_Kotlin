@@ -15,11 +15,11 @@ import Constants.REGEX_START_IDENTIFIER
 import Constants.TYPE
 import Constants.TYPES_LIST
 import Constants.WHITE_SPACE
-import Constants.WHITE_SPACE_WITHOUT_R
+
 
 class Tokenizer {
 
-    private var line = 1
+    private var lineNumber = 1
 
     private val _tokens = mutableListOf<Token>()
 
@@ -28,13 +28,19 @@ class Tokenizer {
         get (){
             return identifyKeywordsAndTypes(_tokens)
         }
+    val tokensSemComment = mutableListOf<Token>()
 
     fun parse(code: String): List<Token> {
         for(char in code){
             consume(char)
         }
 
-        return tokens
+        for (token in tokens){
+            if (token.type != COMMENT && token.type != EOL) tokensSemComment.add(token)
+        }
+        //TODO avaliar lista de tokens sem comentários
+//        return tokens
+        return tokensSemComment
     }
 
     fun identifyKeywordsAndTypes(tokens: List<Token>): List<Token> {
@@ -65,7 +71,7 @@ class Tokenizer {
             }
             val type = resolveType(char.toString())
 
-            tokenAtual = Token(type, char.toString())
+            tokenAtual = Token(type, char.toString(), lineNumber)
             _tokens.add(tokenAtual!!)
             return
         }
@@ -108,49 +114,49 @@ class Tokenizer {
             return OPERATOR
         }
         if(value == EOL_CHAR){
-            line++
+            lineNumber++
             return EOL
         }
-        throw error("Token Invalido: $value na linha $line")
+        throw error("Token Invalido: $value na linha $lineNumber")
     }
 
     fun canConcat(type : String, value : String, char: String) : Boolean{
 
-        if(type == COMMENT){
-            if(value[value.length -1] == '*' && char == "/"){
+        when(type){
+            COMMENT ->{
+                if(value[value.length -1] == '*' && char == "/"){
+                    return true
+                }
                 return true
             }
-            return true
-        }
+            IDENTIFIER -> {
+                if(char.matches(Regex(REGEX_IDENTIFIER))){
+                    return true
+                }
+            }
 
-        if(type == IDENTIFIER){
-            if(char.matches(Regex(REGEX_IDENTIFIER))){
-                return true
+            OPERATOR -> {
+                when(value) {
+                    "<" -> if(char == ">"
+                            || char =="=") return true
+                    ">" -> if(char == "=") return true
+                    ":" -> if(char == "=") return true
+                    "/" -> if(char == "*") return true
+                    "*" -> if(char == "/") return true
+                }
+            }
+            EOL -> {
+                if(char == EOL_CHAR || char == "\r"){
+                    lineNumber = 0
+                    return true
+                }
+            }
+            NUMBER_TYPE -> {
+                if(NUMBER_CHARS.contains(char) || char == ".") {
+                    return true
+                }
             }
         }
-        if(type == OPERATOR ){
-            when(value) {
-                "<" -> if(char == ">" || char =="=") return true
-                ">" -> if(char == "=") return true
-                ":" -> if(char == "=") return true
-            }
-            if(value == "/" && char == "*") return true
-            if(value == "*" && char == "/") return true
-        }
-
-        if(type == EOL){
-            if(char == EOL_CHAR || char == "\r"){
-                line = 0
-                return true
-            }
-        }
-
-        if(type == NUMBER_TYPE){
-            if(NUMBER_CHARS.contains(char) || char == ".") {
-                return true
-            }
-        }
-
         return false
     }
 }

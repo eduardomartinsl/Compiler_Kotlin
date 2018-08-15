@@ -13,19 +13,15 @@ public class Sintatic(val tokens: List<Token>) {
     private val isOver get() = tokens.size == index
     private var incompleteSymbols = mutableListOf<String>()
 
-    //TODO implementar tratamento de comentários
-
-//    private var areVariableDeclared = false
-
     val symbolTable = SymbolTable()
 
-    private fun createSymbol(id: String){
+    private fun createSymbol(id: String) {
         incompleteSymbols.add(id)
     }
 
-    private fun addSymbolType(type: String){
-        incompleteSymbols.forEach{
-            if(symbolTable.exists(it)){
+    private fun addSymbolType(type: String) {
+        incompleteSymbols.forEach {
+            if (symbolTable.exists(it)) {
                 error("O Simbolo $it já foi declarado!")
             }
             symbolTable.insert(it, type)
@@ -41,7 +37,7 @@ public class Sintatic(val tokens: List<Token>) {
 
     }
 
-    fun getSymbols(): Array<Symbol>{
+    fun getSymbols(): Array<Symbol> {
         return symbolTable.values
     }
 
@@ -54,12 +50,12 @@ public class Sintatic(val tokens: List<Token>) {
         if (token.type == type && (value == null || token.value == value)) {
             consumeToken()
         } else {
-            error("É esperado $message")
+            error("É esperado $message, encontrado ${token.type} (${token.value}) na linha ${token.lineNumber}")
         }
     }
 
     private fun `is`(type: String, value: String?): Boolean {
-        return token.type == OPERATOR && (value == null || token.value == value)
+        return token.type == type && (value == null || token.value == value)
     }
 
     private fun operator(value: String) {
@@ -82,7 +78,15 @@ public class Sintatic(val tokens: List<Token>) {
         expect(EOL, null, "fim de linha")
     }
 
-    private fun identifier() : String {
+    private fun ignoreEndOfLines() {
+
+        while (token.type == EOL) {
+            consumeToken()
+        }
+
+    }
+
+    private fun identifier(): String {
         val id = token.value
         expect(IDENTIFIER, null, "identificador")
         return id
@@ -96,7 +100,7 @@ public class Sintatic(val tokens: List<Token>) {
         }
     }
 
-    private fun backwardToken(){
+    private fun backwardToken() {
         index--
     }
 
@@ -133,7 +137,7 @@ public class Sintatic(val tokens: List<Token>) {
 
         endOfLine()
 
-        if(!l()) {
+        if (!l()) {
 
             if (isOperator(":=")) {
                 incompleteSymbols.clear()
@@ -150,7 +154,7 @@ public class Sintatic(val tokens: List<Token>) {
         o()
     }
 
-    private fun l() : Boolean {
+    private fun l(): Boolean {
 
         codeNotOver()
 
@@ -161,7 +165,7 @@ public class Sintatic(val tokens: List<Token>) {
         return x()
     }
 
-    private fun x() : Boolean {
+    private fun x(): Boolean {
 
         codeNotOver()
 
@@ -274,7 +278,7 @@ public class Sintatic(val tokens: List<Token>) {
 
         operator(";")
 
-        if(!isOver) {
+        if (!isOver) {
             endOfLine()
         }
 
@@ -288,18 +292,21 @@ public class Sintatic(val tokens: List<Token>) {
 
     }
 
-    //TODO remover sintático antigo
+//TODO remover sintático antigo
 
     private fun programa() {
+        codeNotOver()
 
         keyword("program")
         identifier()
         corpo()
         operator(".")
-
     }
 
     private fun corpo() {
+
+        codeNotOver()
+
 
         dc()
 
@@ -312,6 +319,9 @@ public class Sintatic(val tokens: List<Token>) {
     }
 
     private fun dc() {
+
+
+        ignoreEndOfLines()
 //        if(!areVariableDeclared){
 //            dc_v()
 //            mais_dc()
@@ -319,12 +329,19 @@ public class Sintatic(val tokens: List<Token>) {
 //            dc_p()
 //            mais_dc()
 //        }
-        dc_v()
+        when {
+            isKeyword("var") -> dc_v()
+            isKeyword("procedure") -> dc_p()
+            else -> return
+        }
+
+        //continua ou nao :D
         mais_dc()
+
     }
 
     private fun mais_dc() {
-        if(token.type == OPERATOR) {
+        if (token.type == OPERATOR) {
             operator(";")
             dc()
         }
@@ -337,23 +354,42 @@ public class Sintatic(val tokens: List<Token>) {
         tipo_var()
     }
 
-    private fun tipo_var(){
-        //TODO estudar implementação
+    private fun tipo_var() {
+        codeNotOver()
+
+        if (token.type == TYPE) {
+
+            //addSymbolType(token.value)
+
+            if (token.value == "integer") {
+                consumeToken()
+                return
+            }
+
+            if (token.value == "real") {
+                consumeToken()
+                return
+            }
+
+        }
+
+        error("Era esperando um tipo (integer ou real)")
+
     }
 
-    private fun variaveis(){
+    private fun variaveis() {
         identifier()
         mais_var()
     }
 
-    private fun mais_var(){
-        if(token.type == OPERATOR){
+    private fun mais_var() {
+        if (`is`(OPERATOR, ",")) {
             operator(",")
             variaveis()
         }
     }
 
-    private fun dc_p(){
+    private fun dc_p() {
         keyword("procedure")
 
         identifier()
@@ -363,15 +399,15 @@ public class Sintatic(val tokens: List<Token>) {
         corpo_p()
     }
 
-    private fun parametros(){
-        if(token.type == OPERATOR){
+    private fun parametros() {
+        if (token.type == OPERATOR) {
             operator("(")
             lista_par()
             operator(")")
         }
     }
 
-    private fun lista_par(){
+    private fun lista_par() {
 
         variaveis()
 
@@ -379,18 +415,18 @@ public class Sintatic(val tokens: List<Token>) {
 
         tipo_var()
 
-        mais_var()
+        mais_par()
     }
 
-    private fun mais_par(){
-        if(token.type == OPERATOR){
+    private fun mais_par() {
+        if (`is`(OPERATOR, ";")) {
             operator(";")
 
             lista_par()
         }
     }
 
-    private fun corpo_p(){
+    private fun corpo_p() {
         dc_loc()
 
         keyword("begin")
@@ -400,22 +436,26 @@ public class Sintatic(val tokens: List<Token>) {
         keyword("end")
     }
 
-    private fun dc_loc(){
+    private fun dc_loc() {
+
+        ignoreEndOfLines()
+
+        if (!isKeyword("var")) return
+
         dc_v()
 
         mais_dcloc()
     }
 
-    private fun mais_dcloc(){
-        if(token.type == OPERATOR){
+    private fun mais_dcloc() {
+        if (token.type == OPERATOR) {
             operator(";")
             dc_loc()
-            return
         }
     }
 
-    private fun lista_arg(){
-        if(token.type == OPERATOR){
+    private fun lista_arg() {
+        if (token.type == OPERATOR) {
             operator("(")
             argumentos()
             operator(")")
@@ -423,21 +463,21 @@ public class Sintatic(val tokens: List<Token>) {
         }
     }
 
-    private fun argumentos(){
+    private fun argumentos() {
         identifier()
         mais_ident()
     }
 
-    private fun mais_ident(){
-        if(token.type == OPERATOR){
+    private fun mais_ident() {
+        if (`is`( OPERATOR, ";" ) ) {
             operator(";")
             argumentos()
             return
         }
     }
 
-    private fun pfalsa(){
-        if(token.type == KEYWORD){
+    private fun pfalsa() {
+        if (`is`(  KEYWORD, "else") ) {
             keyword("else")
             comandos()
             return
@@ -451,18 +491,20 @@ public class Sintatic(val tokens: List<Token>) {
         mais_comandos()
     }
 
-    private fun mais_comandos(){
-        if(token.type == OPERATOR){
+    private fun mais_comandos() {
+        if (token.type == OPERATOR) {
             operator(";")
             comandos()
             return
         }
     }
 
-    private fun comando(){
-        if(token.type == KEYWORD){
-            when(token.value){
+    private fun comando() {
+        if (token.type == KEYWORD) {
+            when (token.value) {
                 "read" -> {
+                    consumeToken()
+
                     operator("(")
 
                     variaveis()
@@ -470,6 +512,8 @@ public class Sintatic(val tokens: List<Token>) {
                     operator(")")
                 }
                 "write" -> {
+                    consumeToken()
+
                     operator("(")
 
                     variaveis()
@@ -477,6 +521,8 @@ public class Sintatic(val tokens: List<Token>) {
                     operator(")")
                 }
                 "while" -> {
+                    consumeToken()
+
                     condicao()
 
                     keyword("do")
@@ -486,6 +532,8 @@ public class Sintatic(val tokens: List<Token>) {
                     keyword("$")
                 }
                 "if" -> {
+                    consumeToken()
+
                     condicao()
 
                     keyword("then")
@@ -498,13 +546,14 @@ public class Sintatic(val tokens: List<Token>) {
                 }
             }
         }
-        if(token.type == IDENTIFIER){
+        if (token.type == IDENTIFIER) {
             identifier()
+            restoIdent()
         }
     }
 
-    private fun restoIdent(){
-        if(token.type == OPERATOR){
+    private fun restoIdent() {
+        if (`is`( token.type , ":=") ) {
             operator(":=")
 
             expressao()
@@ -514,7 +563,7 @@ public class Sintatic(val tokens: List<Token>) {
         lista_arg()
     }
 
-    private fun condicao(){
+    private fun condicao() {
 
         expressao()
 
@@ -523,75 +572,55 @@ public class Sintatic(val tokens: List<Token>) {
         expressao()
     }
 
-    private fun relacao(){
-        if(token.type == OPERATOR){
-            when(token.value){
-                "=" -> {
-                    consumeToken()
-                    return
-                }
-                "<>" -> {
-                    consumeToken()
-                    return
-                }
-                ">=" -> {
-                    consumeToken()
-                    return
-                }
-                "<=" -> {
-                    consumeToken()
-                    return
-                }
-                ">" -> {
-                    consumeToken()
-                    return
-                }
-                "<" -> {
-                    consumeToken()
-                    return
-                }
+    private fun relacao() {
+        if (token.type == OPERATOR) {
+            when (token.value) {
+                "=" -> consumeToken()
+                "<>" -> consumeToken()
+                ">=" -> consumeToken()
+                "<=" -> consumeToken()
+                ">" -> consumeToken()
+                "<" -> consumeToken()
+                else -> error("É esperado um operador de relação")
             }
         }
     }
 
-    private fun expressao(){
+    private fun expressao() {
         termo()
 
         outros_termos()
     }
 
-    private fun op_un(){
-        if(token.type == OPERATOR){
-            if(token.value == "+"){
-                consumeToken()
-                return
-            }
-            if(token.value == "-"){
-                consumeToken()
-                return
-            }
+    private fun op_un() {
+        if (isOperator("+") || isOperator("-")) {
+            consumeToken()
         }
     }
 
     private fun outros_termos() {
 
-        op_ad()
+        if (isOperator("+") || isOperator("-")) {
 
-        termo()
 
-        outros_termos()
+            op_ad()
 
-        //TODO análise de first e follow
+            termo()
 
+            outros_termos()
+
+            //TODO análise de first e follow
+
+        }
     }
 
-    private fun op_ad(){
-        if(token.type == OPERATOR){
-            if(token.value == "+"){
+    private fun op_ad() {
+        if (token.type == OPERATOR) {
+            if (token.value == "+") {
                 consumeToken()
                 return
             }
-            if(token.value == "-"){
+            if (token.value == "-") {
                 consumeToken()
                 return
             }
@@ -608,52 +637,49 @@ public class Sintatic(val tokens: List<Token>) {
 
     }
 
-    private fun mais_fatores(){
-        op_mul()
+    private fun mais_fatores() {
 
-        fator()
+        if (isOperator("*") || isOperator("/")) {
 
-        mais_fatores()
+            op_mul()
 
-        //TODO análise de first e follow
+            fator()
+
+            mais_fatores()
+
+        }
+
     }
 
-    private fun op_mul(){
-        if(token.type == OPERATOR){
-            if(token.value == "*"){
+    private fun op_mul() {
+        if (token.type == OPERATOR) {
+            if (token.value == "*") {
                 consumeToken()
                 return
             }
-            if(token.value == "/"){
+            if (token.value == "/") {
                 consumeToken()
                 return
             }
         }
     }
 
-    private fun fator(){
+    private fun fator() {
 
-        //TODO analisar usabilidade
-        if(token.type == IDENTIFIER){
-            consumeToken()
-            return
-        }
-        if(token.type == REAL_TYPE){
-            consumeToken()
-            return
-        }
-        if(token.type == INTEGER_TYPE){
-            consumeToken()
-            return
-        }
-        if(token.type == OPERATOR){
-            operator("(")
 
-            expressao()
+        when (token.type) {
+            IDENTIFIER -> consumeToken()
+            REAL_TYPE -> consumeToken()
+            INTEGER_TYPE -> consumeToken()
+            OPERATOR -> {
+                operator("(")
 
-            operator(")")
+                expressao()
 
+                operator(")")
+            }
         }
+
     }
 
 }
