@@ -212,12 +212,8 @@ public class Sintatic(val tokens: List<Token>) {
         codeNotOver()
 
         if (isOperator(";")) {
-            //Realizar a inserção na tabela de símbolos
-            //Busca também? Tirar dúvida
             operator(";")
-
             d()
-
             return
         }
 
@@ -233,15 +229,10 @@ public class Sintatic(val tokens: List<Token>) {
         }
 
         if (isKeyword("if")) {
-
             keyword("if")
-
             e()
-
             keyword("then")
-
             s()
-
             return
         }
 
@@ -324,13 +315,6 @@ public class Sintatic(val tokens: List<Token>) {
 
 
         ignoreEndOfLines()
-//        if(!areVariableDeclared){
-//            dc_v()
-//            mais_dc()
-//        }else{
-//            dc_p()
-//            mais_dc()
-//        }
         when {
             isKeyword("var") -> dc_v()
             isKeyword("procedure") -> dc_p()
@@ -360,8 +344,6 @@ public class Sintatic(val tokens: List<Token>) {
         codeNotOver()
 
         if (token.type == TYPE) {
-
-            //addSymbolType(token.value)
 
             if (token.value == "integer") {
                 consumeToken()
@@ -610,8 +592,6 @@ public class Sintatic(val tokens: List<Token>) {
             termo()
 
             outros_termos()
-
-            //TODO análise de first e follow
 
         }
     }
