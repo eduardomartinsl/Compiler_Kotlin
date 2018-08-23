@@ -1,20 +1,21 @@
-import Constants.COMMENT
-import Constants.EOL
-import Constants.EOL_CHAR
-import Constants.IDENTIFIER
-import Constants.INTEGER_TYPE
-import Constants.KEYWORD
-import Constants.KEYWORDS_LIST
-import Constants.NUMBER_CHARS
-import Constants.NUMBER_TYPE
-import Constants.OPERATOR
-import Constants.OPERATORS_CHARS
-import Constants.REAL_TYPE
-import Constants.REGEX_IDENTIFIER
-import Constants.REGEX_START_IDENTIFIER
-import Constants.TYPE
-import Constants.TYPES_LIST
-import Constants.WHITE_SPACE
+import constants.Constants.COMMENT
+import constants.Constants.EOL
+import constants.Constants.EOL_CHAR
+import constants.Constants.IDENTIFIER
+import constants.Constants.INTEGER_TYPE
+import constants.Constants.KEYWORD
+import constants.Constants.KEYWORDS_LIST
+import constants.Constants.NUMBER_CHARS
+import constants.Constants.NUMBER_TYPE
+import constants.Constants.OPERATOR
+import constants.Constants.OPERATORS_CHARS
+import constants.Constants.REAL_TYPE
+import constants.Constants.REGEX_IDENTIFIER
+import constants.Constants.REGEX_START_IDENTIFIER
+import constants.Constants.TYPE
+import constants.Constants.TYPES_LIST
+import constants.Constants.WHITE_SPACE
+import models.Token
 
 
 class Tokenizer {
@@ -117,7 +118,7 @@ class Tokenizer {
             lineNumber++
             return EOL
         }
-        throw error("Token Invalido: $value na linha $lineNumber")
+        throw error("models.Token Invalido: $value na linha $lineNumber")
     }
 
     fun canConcat(type : String, value : String, char: String) : Boolean{

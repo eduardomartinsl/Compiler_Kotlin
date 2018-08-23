@@ -1,10 +1,12 @@
-import Constants.EOL
-import Constants.IDENTIFIER
-import Constants.INTEGER_TYPE
-import Constants.KEYWORD
-import Constants.OPERATOR
-import Constants.REAL_TYPE
-import Constants.TYPE
+import constants.Constants.EOL
+import constants.Constants.IDENTIFIER
+import constants.Constants.INTEGER_TYPE
+import constants.Constants.KEYWORD
+import constants.Constants.OPERATOR
+import constants.Constants.REAL_TYPE
+import constants.Constants.TYPE
+import models.Symbol
+import models.Token
 
 public class Sintatic(val tokens: List<Token>) {
 
