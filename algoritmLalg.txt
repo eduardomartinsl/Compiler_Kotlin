@@ -2,9 +2,9 @@ program programa1
 {1 exemplo de programa}
 var a, a1, b: integer;
 var c, e, f: real;
-procedure soma(a:integer; b:real)
+procedure soma(x1:integer; d2:real)
 /* esta eh uma subrotina *** */
-	var c: integer;
+	var f5: integer;
 	begin
     		if a > b then
 			c:= 3 + a

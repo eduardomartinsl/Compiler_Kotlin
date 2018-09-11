@@ -15,18 +15,18 @@ public class Sintatic(val tokens: List<Token>) {
     private val isOver get() = tokens.size == index
     private var incompleteSymbols = mutableListOf<String>()
 
-    val symbolTable = SymbolTable()
+    private val symbolTable = SymbolTable()
 
     private fun createSymbol(id: String) {
         incompleteSymbols.add(id)
     }
 
-    private fun addSymbolType(type: String) {
+    private fun addSymbolType(type: String, scope: String = "Global") {
         incompleteSymbols.forEach {
             if (symbolTable.exists(it)) {
                 error("O Simbolo $it já foi declarado!")
             }
-            symbolTable.insert(it, type)
+            symbolTable.insert(it, type, scope)
         }
         incompleteSymbols.clear()
     }
@@ -76,10 +76,6 @@ public class Sintatic(val tokens: List<Token>) {
         expect(KEYWORD, value, "uma palavra-chave  '$value'")
     }
 
-    private fun endOfLine() {
-        expect(EOL, null, "fim de linha")
-    }
-
     private fun ignoreEndOfLines() {
 
         while (token.type == EOL) {
@@ -96,15 +92,11 @@ public class Sintatic(val tokens: List<Token>) {
 
     private fun consumeToken() {
         index++
-        if (isOver) {
-            //fazer algo... o q ? nao sei
-            //... nada :D
-        }
     }
 
-    private fun backwardToken() {
-        index--
-    }
+//    private fun backwardToken() {
+//        index--
+//    }
 
     private fun codeNotOver() {
 
@@ -114,178 +106,178 @@ public class Sintatic(val tokens: List<Token>) {
 
     }
 
-    private fun z() {
-
-        i()
-
-        s()
-
-    }
-
-    private fun i() {
-
-        codeNotOver()
-
-        keyword("var")
-
-
-        d()
-
-    }
-
-    private fun d() {
-
-        codeNotOver()
-
-        endOfLine()
-
-        if (!l()) {
-
-            if (isOperator(":=")) {
-                incompleteSymbols.clear()
-                backwardToken()
-                return
-            }
-
-        }
-
-        operator(":")
-
-        k()
-
-        o()
-    }
-
-    private fun l(): Boolean {
-
-        codeNotOver()
-
-        val id = identifier()
-
-        createSymbol(id)
-
-        return x()
-    }
-
-    private fun x(): Boolean {
-
-        codeNotOver()
-
-        if (isOperator(",")) {
-
-            operator(",")
-
-            l()
-
-            return true
-        }
-
-        return false
-    }
-
-    private fun k() {
-
-        codeNotOver()
-
-        if (token.type == TYPE) {
-
-            addSymbolType(token.value)
-
-            if (token.value == "integer") {
-                consumeToken()
-                return
-            }
-
-            if (token.value == "real") {
-                consumeToken()
-                return
-            }
-
-        }
-
-        error("Era esperando um tipo (integer ou real)")
-
-    }
-
-    private fun o() {
-
-        codeNotOver()
-
-        if (isOperator(";")) {
-            operator(";")
-            d()
-            return
-        }
-
-        endOfLine()
-
-    }
-
-    private fun s() {
-
-        if (isOver) {
-            //acabou
-            return
-        }
-
-        if (isKeyword("if")) {
-            keyword("if")
-            e()
-            keyword("then")
-            s()
-            return
-        }
-
-        identifier()
-
-        operator(":=")
-
-        e()
-
-    }
-
-    private fun e() {
-
-        codeNotOver()
-
-        t()
-
-        r()
-
-    }
-
-    private fun r() {
-
-        codeNotOver()
-
-        if (isOperator("+")) {
-
-            operator("+")
-
-            t()
-
-            r()
-
-            return
-        }
-
-        operator(";")
-
-        if (!isOver) {
-            endOfLine()
-        }
-
-    }
-
-    private fun t() {
-
-        codeNotOver()
-
-        identifier()
-
-    }
-
-//TODO remover sintático antigo
+//region sintático antigo
+//    private fun z() {
+//
+//        i()
+//
+//        s()
+//
+//    }
+//
+//    private fun i() {
+//
+//        codeNotOver()
+//
+//        keyword("var")
+//
+//
+//        d()
+//
+//    }
+//
+//    private fun d() {
+//
+//        codeNotOver()
+//
+//        endOfLine()
+//
+//        if (!l()) {
+//
+//            if (isOperator(":=")) {
+//                incompleteSymbols.clear()
+//                backwardToken()
+//                return
+//            }
+//
+//        }
+//
+//        operator(":")
+//
+//        k()
+//
+//        o()
+//    }
+//
+//    private fun l(): Boolean {
+//
+//        codeNotOver()
+//
+//        val id = identifier()
+//
+//        createSymbol(id)
+//
+//        return x()
+//    }
+//
+//    private fun x(): Boolean {
+//
+//        codeNotOver()
+//
+//        if (isOperator(",")) {
+//
+//            operator(",")
+//
+//            l()
+//
+//            return true
+//        }
+//
+//        return false
+//    }
+//
+//    private fun k() {
+//
+//        codeNotOver()
+//
+//        if (token.type == TYPE) {
+//
+//            addSymbolType(token.value)
+//
+//            if (token.value == "integer") {
+//                consumeToken()
+//                return
+//            }
+//
+//            if (token.value == "real") {
+//                consumeToken()
+//                return
+//            }
+//
+//        }
+//
+//        error("Era esperando um tipo (integer ou real)")
+//
+//    }
+//
+//    private fun o() {
+//
+//        codeNotOver()
+//
+//        if (isOperator(";")) {
+//            operator(";")
+//            d()
+//            return
+//        }
+//
+//        endOfLine()
+//
+//    }
+//
+//    private fun s() {
+//
+//        if (isOver) {
+//            //acabou
+//            return
+//        }
+//
+//        if (isKeyword("if")) {
+//            keyword("if")
+//            e()
+//            keyword("then")
+//            s()
+//            return
+//        }
+//
+//        identifier()
+//
+//        operator(":=")
+//
+//        e()
+//
+//    }
+//
+//    private fun e() {
+//
+//        codeNotOver()
+//
+//        t()
+//
+//        r()
+//
+//    }
+//
+//    private fun r() {
+//
+//        codeNotOver()
+//
+//        if (isOperator("+")) {
+//
+//            operator("+")
+//
+//            t()
+//
+//            r()
+//
+//            return
+//        }
+//
+//        operator(";")
+//
+//        if (!isOver) {
+//            endOfLine()
+//        }
+//
+//    }
+//
+//    private fun t() {
+//
+//        codeNotOver()
+//
+//        identifier()
+//
+//    }
+//endregion
 
     private fun programa() {
         codeNotOver()
@@ -346,11 +338,13 @@ public class Sintatic(val tokens: List<Token>) {
         if (token.type == TYPE) {
 
             if (token.value == "integer") {
+                addSymbolType(token.value)
                 consumeToken()
                 return
             }
 
             if (token.value == "real") {
+                addSymbolType(token.value)
                 consumeToken()
                 return
             }
@@ -362,7 +356,8 @@ public class Sintatic(val tokens: List<Token>) {
     }
 
     private fun variaveis() {
-        identifier()
+        var s = identifier()
+        createSymbol(s)
         mais_var()
     }
 
@@ -376,8 +371,9 @@ public class Sintatic(val tokens: List<Token>) {
     private fun dc_p() {
         keyword("procedure")
 
-        identifier()
-
+        var s = identifier()
+        createSymbol(s)
+        addSymbolType("Procedure")
         parametros()
 
         corpo_p()

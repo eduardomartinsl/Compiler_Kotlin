@@ -12,18 +12,17 @@ fun main(args: Array<String>) {
     //print dos tokens identificados
     for(token in tokens){
         println(token)
-
     }
 
     //analisador sintático
     val ast = Sintatic(tokens)
     ast.analyze()
-//
-//
-//    val symbols = ast.getSymbols()
-//    for(symbol in symbols){
-//        println(symbol)
-//    }
+
+
+    val symbols = ast.getSymbols()
+    for(symbol in symbols){
+        println(symbol)
+    }
 
 
 }
