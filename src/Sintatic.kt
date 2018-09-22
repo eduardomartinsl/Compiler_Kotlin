@@ -21,12 +21,12 @@ public class Sintatic(val tokens: List<Token>) {
         incompleteSymbols.add(id)
     }
 
-    private fun addSymbolType(type: String, scope: String = "Global") {
+    private fun addSymbolType(type: String, scope: String = "Global", fatherProcedure: String? = null) {
         incompleteSymbols.forEach {
             if (symbolTable.exists(it)) {
                 error("O Simbolo $it já foi declarado!")
             }
-            symbolTable.insert(it, type, scope)
+            symbolTable.insert(it, type, scope, fatherProcedure)
         }
         incompleteSymbols.clear()
     }
@@ -94,9 +94,9 @@ public class Sintatic(val tokens: List<Token>) {
         index++
     }
 
-//    private fun backwardToken() {
-//        index--
-//    }
+    private fun backwardToken() {
+        index--
+    }
 
     private fun codeNotOver() {
 

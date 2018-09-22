@@ -4,10 +4,10 @@ class SymbolTable{
 
     val symbols = mutableMapOf<String, Symbol>()
 
-    fun insert(id: String, type: String, scope: String){
+    fun insert(id: String, type: String, scope: String?,  fatherProcedure: String?){
         if(exists(id)) throw Error("ERRROU")
         val address = symbols.size + 1
-        symbols.put(id, Symbol(id, type, address, scope, null))
+        symbols.put(id, Symbol(id, type, address, scope, fatherProcedure))
     }
 
     fun exists(id: String): Boolean {
