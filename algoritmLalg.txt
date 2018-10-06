@@ -1,13 +1,13 @@
 program programa1
 {1 exemplo de programa}
-var a, a1, b: integer;
+var a,a1, a6, b: integer;
 var c, e, f: real;
 procedure soma(x1:integer; d2:real)
 /* esta eh uma subrotina *** */
-	var f5: integer;
+	var f5, a, b: integer;
 	begin
     		if a > b then
-			c:= 3 + a
+			    b:= 3 + a
     		$;
     		b := 4.3
 	end
@@ -23,6 +23,6 @@ begin
         a:=a-1;
         b:=b+1;
     $;
-    soma(a1;b)
+    soma(a; e)
 end.
 	

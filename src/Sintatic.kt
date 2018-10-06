@@ -5,8 +5,10 @@ import constants.Constants.KEYWORD
 import constants.Constants.OPERATOR
 import constants.Constants.REAL_TYPE
 import constants.Constants.TYPE
+import models.ProcedureSymbol
 import models.Symbol
 import models.Token
+import models.VarSymbol
 
 public class Sintatic(val tokens: List<Token>) {
 
@@ -14,22 +16,130 @@ public class Sintatic(val tokens: List<Token>) {
     private var index = 0
     private val isOver get() = tokens.size == index
     private var incompleteSymbols = mutableListOf<String>()
-
+    private var paramCount = 0
     private val symbolTable = SymbolTable()
+    private var currentProcedureArgs: ProcedureSymbol? = null
 
-    private fun createSymbol(id: String) {
+    private fun checkParam(token: Token) {
+        catchError {
+            val proc = currentProcedureArgs
+
+            if (proc == null) {
+                throw Error("É necessário estar em um procedimento para declarar um argumento")
+            }
+
+            val symbol = symbolTable.search<Symbol>(token.value)
+
+            if (symbol == null) {
+                throw Error("O identificar ${token.value} não foi declarado")
+            }
+
+            proc.ensureParam(symbol.valueType, paramCount)
+
+            paramCount++
+        }
+    }
+
+    private fun checkVar(token: Token) : VarSymbol{
+        var symbol : VarSymbol? = null
+
+        catchError {
+            symbol = symbolTable.search(token.value)
+            if(symbol == null){
+                errorIdNaoExistent(token.value)
+            }
+        }
+
+
+        return symbol!!
+    }
+
+    private fun checkVarType(symbol: VarSymbol, requiredType: String){
+        catchError {
+            if(symbol.varType != requiredType){
+                errorType(symbol.identifier, symbol.varType, requiredType)
+
+            }
+        }
+    }
+
+    private fun checkProcedure(token: Token) : ProcedureSymbol{
+        var symbol : ProcedureSymbol? = null
+
+        catchError {
+            symbol = symbolTable.search<ProcedureSymbol>(token.value)
+            if(symbol == null){
+                errorIdNaoExistent(token.value)
+            }
+        }
+
+
+        return symbol!!
+    }
+
+    private fun errorType(name: String, type: String, wrongType: String){
+
+        throw Error("O $name esperava um tipo $type e recebeu o tipo $wrongType")
+    }
+
+    private fun errorIdNaoExistent(name: String){
+        throw Error("O identificador $name não foi declarado")
+    }
+
+    private fun createVarSymbol(id: String){
         incompleteSymbols.add(id)
     }
 
-    private fun addSymbolType(type: String, scope: String = "Global", fatherProcedure: String? = null) {
-        incompleteSymbols.forEach {
-            if (symbolTable.exists(it)) {
-                error("O Simbolo $it já foi declarado!")
+    private fun addVarSymbol(type: String){
+        catchError {
+            incompleteSymbols.forEach {
+
+                symbolTable.insertVar(it, type)
             }
-            symbolTable.insert(it, type, scope, fatherProcedure)
+            incompleteSymbols.clear()
         }
-        incompleteSymbols.clear()
     }
+
+    private fun createParamSymbol(id: String){
+        incompleteSymbols.add(id)
+    }
+
+    private fun addParamSymbol(type: String){
+        catchError {
+            incompleteSymbols.forEach {
+
+                symbolTable.insertParams(it, type)
+            }
+            incompleteSymbols.clear()
+        }
+    }
+
+
+    private fun createProcedureSymbol(id: String) {
+        catchError {
+            symbolTable.insertProc(id)
+        }
+    }
+
+    private fun closeProcedureSymbol(){
+        symbolTable.endProc()
+    }
+
+
+
+//    private fun createSymbol(id: String) {
+//        incompleteSymbols.add(id)
+//    }
+//
+//    private fun addSymbolType(type: String, scope: String = "Global", fatherProcedure: String? = null) {
+//        incompleteSymbols.forEach {
+//            if (symbolTable.exists(it)) {
+//                error("O Simbolo $it já foi declarado!")
+//            }
+//            symbolTable.insert(it, type, scope, fatherProcedure)
+//        }
+//        incompleteSymbols.clear()
+//    }
 
     fun analyze() {
 
@@ -41,6 +151,16 @@ public class Sintatic(val tokens: List<Token>) {
 
     fun getSymbols(): Array<Symbol> {
         return symbolTable.values
+    }
+
+    private fun catchError(action: ()->Unit){
+
+        try{
+            action()
+        }catch (e: Error){
+            error("${e.message} (linha ${token.lineNumber})")
+        }
+
     }
 
     private fun error(message: String) {
@@ -84,9 +204,17 @@ public class Sintatic(val tokens: List<Token>) {
 
     }
 
-    private fun identifier(): String {
+    private fun identifier(idType: String = "none"): String {
         val id = token.value
+        val consumedToken = token
+
+
         expect(IDENTIFIER, null, "identificador")
+
+        if(idType == "arg"){
+            checkParam(consumedToken)
+        }
+
         return id
     }
 
@@ -106,178 +234,6 @@ public class Sintatic(val tokens: List<Token>) {
 
     }
 
-//region sintático antigo
-//    private fun z() {
-//
-//        i()
-//
-//        s()
-//
-//    }
-//
-//    private fun i() {
-//
-//        codeNotOver()
-//
-//        keyword("var")
-//
-//
-//        d()
-//
-//    }
-//
-//    private fun d() {
-//
-//        codeNotOver()
-//
-//        endOfLine()
-//
-//        if (!l()) {
-//
-//            if (isOperator(":=")) {
-//                incompleteSymbols.clear()
-//                backwardToken()
-//                return
-//            }
-//
-//        }
-//
-//        operator(":")
-//
-//        k()
-//
-//        o()
-//    }
-//
-//    private fun l(): Boolean {
-//
-//        codeNotOver()
-//
-//        val id = identifier()
-//
-//        createSymbol(id)
-//
-//        return x()
-//    }
-//
-//    private fun x(): Boolean {
-//
-//        codeNotOver()
-//
-//        if (isOperator(",")) {
-//
-//            operator(",")
-//
-//            l()
-//
-//            return true
-//        }
-//
-//        return false
-//    }
-//
-//    private fun k() {
-//
-//        codeNotOver()
-//
-//        if (token.type == TYPE) {
-//
-//            addSymbolType(token.value)
-//
-//            if (token.value == "integer") {
-//                consumeToken()
-//                return
-//            }
-//
-//            if (token.value == "real") {
-//                consumeToken()
-//                return
-//            }
-//
-//        }
-//
-//        error("Era esperando um tipo (integer ou real)")
-//
-//    }
-//
-//    private fun o() {
-//
-//        codeNotOver()
-//
-//        if (isOperator(";")) {
-//            operator(";")
-//            d()
-//            return
-//        }
-//
-//        endOfLine()
-//
-//    }
-//
-//    private fun s() {
-//
-//        if (isOver) {
-//            //acabou
-//            return
-//        }
-//
-//        if (isKeyword("if")) {
-//            keyword("if")
-//            e()
-//            keyword("then")
-//            s()
-//            return
-//        }
-//
-//        identifier()
-//
-//        operator(":=")
-//
-//        e()
-//
-//    }
-//
-//    private fun e() {
-//
-//        codeNotOver()
-//
-//        t()
-//
-//        r()
-//
-//    }
-//
-//    private fun r() {
-//
-//        codeNotOver()
-//
-//        if (isOperator("+")) {
-//
-//            operator("+")
-//
-//            t()
-//
-//            r()
-//
-//            return
-//        }
-//
-//        operator(";")
-//
-//        if (!isOver) {
-//            endOfLine()
-//        }
-//
-//    }
-//
-//    private fun t() {
-//
-//        codeNotOver()
-//
-//        identifier()
-//
-//    }
-//endregion
 
     private fun programa() {
         codeNotOver()
@@ -313,7 +269,6 @@ public class Sintatic(val tokens: List<Token>) {
             else -> return
         }
 
-        //continua ou nao :D
         mais_dc()
 
     }
@@ -332,19 +287,16 @@ public class Sintatic(val tokens: List<Token>) {
         tipo_var()
     }
 
-    private fun tipo_var() {
+    private fun tipo_var(isParameter: Boolean = false) {
         codeNotOver()
-
         if (token.type == TYPE) {
 
-            if (token.value == "integer") {
-                addSymbolType(token.value)
-                consumeToken()
-                return
-            }
-
-            if (token.value == "real") {
-                addSymbolType(token.value)
+            if (token.value == "integer" || token.value == "real") {
+                if(isParameter){
+                    addParamSymbol(token.value)
+                }else{
+                    addVarSymbol(token.value)
+                }
                 consumeToken()
                 return
             }
@@ -355,9 +307,13 @@ public class Sintatic(val tokens: List<Token>) {
 
     }
 
-    private fun variaveis() {
-        var s = identifier()
-        createSymbol(s)
+    private fun variaveis(isParameter: Boolean = false) {
+        val s = identifier()
+        if(isParameter){
+            createParamSymbol(s)
+        }else{
+            createVarSymbol(s)
+        }
         mais_var()
     }
 
@@ -371,12 +327,14 @@ public class Sintatic(val tokens: List<Token>) {
     private fun dc_p() {
         keyword("procedure")
 
-        var s = identifier()
-        createSymbol(s)
-        addSymbolType("Procedure")
+        val s = identifier()
+        createProcedureSymbol(s)
+
         parametros()
 
         corpo_p()
+
+        closeProcedureSymbol()
     }
 
     private fun parametros() {
@@ -389,11 +347,11 @@ public class Sintatic(val tokens: List<Token>) {
 
     private fun lista_par() {
 
-        variaveis()
+        variaveis(true)
 
         operator(":")
 
-        tipo_var()
+        tipo_var(true)
 
         mais_par()
     }
@@ -434,18 +392,22 @@ public class Sintatic(val tokens: List<Token>) {
         }
     }
 
-    private fun lista_arg() {
+
+    private fun lista_arg(proc: ProcedureSymbol) {
         if (token.type == OPERATOR) {
+            currentProcedureArgs = proc
             operator("(")
             argumentos()
             operator(")")
-            return
+            currentProcedureArgs = null
+            paramCount = 0
+
         }
     }
 
-    private fun argumentos() {
-        identifier()
-        mais_ident()
+    private fun argumentos( ) {
+        identifier("arg")
+        mais_ident( )
     }
 
     private fun mais_ident() {
@@ -527,20 +489,34 @@ public class Sintatic(val tokens: List<Token>) {
             }
         }
         if (token.type == IDENTIFIER) {
+            val idToken = token
             identifier()
-            restoIdent()
+
+
+            restoIdent(idToken)
         }
     }
 
-    private fun restoIdent() {
+    private fun restoIdent(idToken: Token) {
         if (`is`( token.type , ":=") ) {
+
+            val varSymbol = checkVar(idToken)
+
             operator(":=")
 
-            expressao()
+            val exprType = expressao()
+
+            //checkVarType(varSymbol, exprType)
+            //TODO: continuar esse cara aqui :D
             return
         }
 
-        lista_arg()
+
+        val proc = checkProcedure(idToken)
+
+
+
+        lista_arg(proc)
     }
 
     private fun condicao() {
@@ -567,9 +543,16 @@ public class Sintatic(val tokens: List<Token>) {
     }
 
     private fun expressao() {
-        termo()
+        val termType = termo()
 
-        outros_termos()
+        val oTermType = outros_termos()
+
+        //TODO: temos que continuar esse maloqui aqui :D
+//        catchError {
+//            if(termType != oTermType){
+//                errorType("expressão", termType, oTermType)
+//            }
+//        }
     }
 
     private fun op_un() {
