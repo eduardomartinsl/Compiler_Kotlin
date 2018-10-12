@@ -19,6 +19,7 @@ public class Sintatic(val tokens: List<Token>) {
     private var paramCount = 0
     private val symbolTable = SymbolTable()
     private var currentProcedureArgs: ProcedureSymbol? = null
+    private var identificadorOrigem: String = "Desconhecido"
 
     private fun checkParam(token: Token) {
         catchError {
@@ -55,9 +56,13 @@ public class Sintatic(val tokens: List<Token>) {
     }
 
     private fun checkVarType(symbol: VarSymbol, requiredType: String){
+        var type = requiredType
         catchError {
-            if(symbol.varType != requiredType){
-                errorType(symbol.identifier, symbol.varType, requiredType)
+            if(symbol.varType == REAL_TYPE && type == INTEGER_TYPE){
+                type = REAL_TYPE
+            }
+            if(symbol.varType != type){
+                errorType(symbol.identifier, symbol.varType, type)
 
             }
         }
@@ -153,14 +158,13 @@ public class Sintatic(val tokens: List<Token>) {
         return symbolTable.values
     }
 
-    private fun catchError(action: ()->Unit){
-
+    private fun <T> catchError(action: ()->T): T{
         try{
-            action()
+            return action()
         }catch (e: Error){
             error("${e.message} (linha ${token.lineNumber})")
+            throw e
         }
-
     }
 
     private fun error(message: String) {
@@ -315,9 +319,10 @@ public class Sintatic(val tokens: List<Token>) {
             createVarSymbol(s)
         }
         mais_var()
+
     }
 
-    private fun mais_var() {
+    private fun mais_var(){
         if (`is`(OPERATOR, ",")) {
             operator(",")
             variaveis()
@@ -337,7 +342,7 @@ public class Sintatic(val tokens: List<Token>) {
         closeProcedureSymbol()
     }
 
-    private fun parametros() {
+    private fun parametros(){
         if (token.type == OPERATOR) {
             operator("(")
             lista_par()
@@ -345,21 +350,20 @@ public class Sintatic(val tokens: List<Token>) {
         }
     }
 
-    private fun lista_par() {
+    private fun lista_par(){
+
 
         variaveis(true)
 
         operator(":")
 
         tipo_var(true)
-
         mais_par()
     }
 
-    private fun mais_par() {
+    private fun mais_par(){
         if (`is`(OPERATOR, ";")) {
             operator(";")
-
             lista_par()
         }
     }
@@ -399,6 +403,9 @@ public class Sintatic(val tokens: List<Token>) {
             operator("(")
             argumentos()
             operator(")")
+            if (proc.params.size != paramCount){
+                throw Error("O procedimento ${proc.identifier} aceita ${proc.params.size} parametros e foi informado ${paramCount} parametro(s) ")
+            }
             currentProcedureArgs = null
             paramCount = 0
 
@@ -501,13 +508,15 @@ public class Sintatic(val tokens: List<Token>) {
         if (`is`( token.type , ":=") ) {
 
             val varSymbol = checkVar(idToken)
-
+            val identificadorAnterior = identificadorOrigem
+            identificadorOrigem = idToken.value
             operator(":=")
 
             val exprType = expressao()
 
-            //checkVarType(varSymbol, exprType)
-            //TODO: continuar esse cara aqui :D
+            checkVarType(varSymbol, exprType)
+
+            identificadorOrigem = identificadorAnterior
             return
         }
 
@@ -542,17 +551,20 @@ public class Sintatic(val tokens: List<Token>) {
         }
     }
 
-    private fun expressao() {
+    private fun expressao() : String{
         val termType = termo()
 
         val oTermType = outros_termos()
 
-        //TODO: temos que continuar esse maloqui aqui :D
-//        catchError {
-//            if(termType != oTermType){
-//                errorType("expressão", termType, oTermType)
-//            }
-//        }
+        catchError {
+            if(oTermType != null){
+                if(termType != oTermType){
+                    errorType(identificadorOrigem, termType, oTermType)
+                }
+            }
+        }
+
+        return termType
     }
 
     private fun op_un() {
@@ -561,18 +573,29 @@ public class Sintatic(val tokens: List<Token>) {
         }
     }
 
-    private fun outros_termos() {
+    private fun outros_termos(): String? {
 
         if (isOperator("+") || isOperator("-")) {
 
-
             op_ad()
 
-            termo()
+            val termType = termo()
 
-            outros_termos()
+            val oTermType = outros_termos()
+
+            //TODO: temos que continuar esse maloqui aqui :D
+            catchError {
+                if(oTermType != null){
+                    if(termType != oTermType){
+                        errorType(identificadorOrigem, termType, oTermType)
+                    }
+                }
+            }
+
+            return termType
 
         }
+        return null
     }
 
     private fun op_ad() {
@@ -588,28 +611,46 @@ public class Sintatic(val tokens: List<Token>) {
         }
     }
 
-    private fun termo() {
+    private fun termo() : String{
 
         op_un()
 
-        fator()
+        var fatorType = fator()
 
-        mais_fatores()
+        val maisFatoresType = mais_fatores()
+        catchError {
+            if(maisFatoresType != null){
+                if(fatorType != maisFatoresType){
+//                    errorType(identificadorOrigem, fatorType, maisFatoresType)
+                    fatorType = REAL_TYPE
 
+                }
+            }
+        }
+        return fatorType
     }
 
-    private fun mais_fatores() {
+    private fun mais_fatores(): String? {
 
         if (isOperator("*") || isOperator("/")) {
 
             op_mul()
 
-            fator()
+            var fatorType = fator()
 
-            mais_fatores()
+            val maisFatoresType = mais_fatores()
+            catchError {
+                if(maisFatoresType != null){
+                    if(fatorType != maisFatoresType){
+//                        errorType(identificadorOrigem, fatorType, maisFatoresType)
+                        fatorType = REAL_TYPE
+                    }
+                }
+            }
+            return fatorType
 
         }
-
+        return null
     }
 
     private fun op_mul() {
@@ -625,19 +666,35 @@ public class Sintatic(val tokens: List<Token>) {
         }
     }
 
-    private fun fator() {
+    private fun fator(): String{
 
 
-        when (token.type) {
-            IDENTIFIER -> consumeToken()
-            REAL_TYPE -> consumeToken()
-            INTEGER_TYPE -> consumeToken()
+        return when (token.type) {
+            IDENTIFIER ->{
+                val symbol = checkVar(token)
+                consumeToken()
+                return symbol.varType
+                //TODO tem que ver esse cara aqui
+            }
+            REAL_TYPE -> {
+                consumeToken()
+                return REAL_TYPE
+            }
+            INTEGER_TYPE -> {
+                consumeToken()
+                return INTEGER_TYPE
+            }
             OPERATOR -> {
                 operator("(")
 
-                expressao()
+                val type = expressao()
 
                 operator(")")
+
+                return type
+            }
+            else-> catchError {
+                throw Error("Erro inesperado")
             }
         }
 

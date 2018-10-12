@@ -67,7 +67,7 @@ class ProcedureSymbol (
     fun ensureParam(paramType: String, position: Int) {
 
         if(params.size <= position){
-            throw Error("O procedimento $identifier só aceita ${params.size} parametros e foi informado um $position parametro ")
+            throw Error("O procedimento $identifier só aceita ${params.size} parametros e foi informado um ${position + 1} parametro ")
         }
 
         if(params[position].paramType != paramType){
